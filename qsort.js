@@ -43,53 +43,64 @@ const swap = (array, i, j) => {
 };
 
 const mergeSort = (arr, count=0) => {
+    // console.log(arr, count)
   if (arr.length <= 1){
-    count++
+    //count++;
     return [arr, count];
   }
 
-  const middle = Math.floor(arr.length/2)
-  let left = arr.slice(0, middle)
-  let right = arr.slice(middle, arr.length)
-  let x = mergeSort(left, count)
+  const middle = Math.floor(arr.length/2);
+  let left = arr.slice(0, middle);
+  let right = arr.slice(middle, arr.length);
+  let x = mergeSort(left);
   // console.log(x[1])
-  left = x[0]
-  // count === x[1]
-  let y = mergeSort(right, x[1])
-  right = y[0]
-  count += y[1]
-  return merge (left, right, arr, count)
+  left = x[0];
+  count += x[1]
+  let y = mergeSort(right);
+  right = y[0];
+  count += y[1];
+
+  let merged = merge (left, right, arr);
+  merged[1] += count +1;
+
+//   console.log(merged[0],merged[1])
+
+if(left.length+right.length === arr.length){
+      return [merged[0], count + merged[1]]
+  }
+  
+  else { return merged;}
 
 
-}
+};
 
-const merge = (left, right, array, count) => {
-  //let count = 0;
+const merge = (left, right, array) => {
+  let count = 0;
   let leftIndex = 0;
   let rightIndex = 0;
   let outputIndex = 0;
-    while (leftIndex < left.length && rightIndex < right.length) {
-        if (left[leftIndex] < right[rightIndex]) {
-            array[outputIndex++] = left[leftIndex++];
-            count++
-        }
-        else {
-            array[outputIndex++] = right[rightIndex++];
-            count++
-        }
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] < right[rightIndex]) {
+      array[outputIndex++] = left[leftIndex++];
+      count++;
     }
-
-    for (let i=leftIndex; i<left.length; i++) {
-        array[outputIndex++] = left[i];
-        count++
+    else {
+      array[outputIndex++] = right[rightIndex++];
+      count++;
     }
+  }
 
-    for (let i=rightIndex; i<right.length; i++) {
-        array[outputIndex++] = right[i];
-        count++
-    }
-    // console.log(count)
-    return [array, count];
-}
+  for (let i=leftIndex; i<left.length; i++) {
+    array[outputIndex++] = left[i];
+    count++;
+  }
 
-console.log(mergeSort([4,5,1,2,9,6,3,7]))
+  for (let i=rightIndex; i<right.length; i++) {
+    array[outputIndex++] = right[i];
+    count++;
+  }
+//   console.log(count)
+  return [array, count];
+};
+
+console.log(mergeSort([4,5,1,2,9,6,3,7]));
