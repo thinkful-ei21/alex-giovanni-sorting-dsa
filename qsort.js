@@ -12,7 +12,7 @@ const qSort = (arr, start = 0, end = arr.length -1) => {
   }
 
   let pIndex = partition(arr, start, end);
-  arr = qSort(arr, start, pIndex);
+  arr = qSort(arr, start, pIndex -1);
   arr = qSort(arr, pIndex+1, end);
  
   return arr;
