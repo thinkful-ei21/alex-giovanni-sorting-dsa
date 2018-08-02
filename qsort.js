@@ -42,3 +42,54 @@ const swap = (array, i, j) => {
   array[j] = tmp;
 };
 
+const mergeSort = (arr, count=0) => {
+  if (arr.length <= 1){
+    count++
+    return [arr, count];
+  }
+
+  const middle = Math.floor(arr.length/2)
+  let left = arr.slice(0, middle)
+  let right = arr.slice(middle, arr.length)
+  let x = mergeSort(left, count)
+  // console.log(x[1])
+  left = x[0]
+  // count === x[1]
+  let y = mergeSort(right, x[1])
+  right = y[0]
+  count += y[1]
+  return merge (left, right, arr, count)
+
+
+}
+
+const merge = (left, right, array, count) => {
+  //let count = 0;
+  let leftIndex = 0;
+  let rightIndex = 0;
+  let outputIndex = 0;
+    while (leftIndex < left.length && rightIndex < right.length) {
+        if (left[leftIndex] < right[rightIndex]) {
+            array[outputIndex++] = left[leftIndex++];
+            count++
+        }
+        else {
+            array[outputIndex++] = right[rightIndex++];
+            count++
+        }
+    }
+
+    for (let i=leftIndex; i<left.length; i++) {
+        array[outputIndex++] = left[i];
+        count++
+    }
+
+    for (let i=rightIndex; i<right.length; i++) {
+        array[outputIndex++] = right[i];
+        count++
+    }
+    // console.log(count)
+    return [array, count];
+}
+
+console.log(mergeSort([4,5,1,2,9,6,3,7]))
